@@ -1,0 +1,15 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate X:\BST\FPGA\src\core\vjtag.qsys --synthesis=VERILOG --output-directory=X:\BST\FPGA\src\core\vjtag\synthesis --family="Cyclone IV E" --part=EP4CE10F17C8
+Progress: Loading core/vjtag.qsys
+Progress: Reading input file
+Progress: Adding virtual_jtag_0 [altera_virtual_jtag 15.1]
+Progress: Parameterizing module virtual_jtag_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: vjtag: Generating vjtag "vjtag" for QUARTUS_SYNTH
+Info: virtual_jtag_0: "vjtag" instantiated altera_virtual_jtag "virtual_jtag_0"
+Info: vjtag: Done "vjtag" with 2 modules, 1 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
