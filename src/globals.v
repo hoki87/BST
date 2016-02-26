@@ -16,10 +16,9 @@
 `define HIGH 1'b1
 `define LOW  1'b0
 
-`define VJTAG_IR_NBIT 1
-`define VJTAG_DR_NBIT 4
+`define VBSC_NUM         4
+`define VBSC_NUM_LOG     2
+`define VBSC_NBIT        3
+`define VBSC_NBIT_LOG    2
 
-`define VBSC_NUM      4
-`define VBSC_NUM_LOG  2
-`define VBSC_NBIT     3
-`define VBSC_NBIT_LOG 2
+//`define DEBUG 1

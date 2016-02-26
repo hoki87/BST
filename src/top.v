@@ -18,7 +18,9 @@
 /////////////////////////// MODULE //////////////////////////////
 module top
 (
+`ifdef DEBUF
    CLK2,
+`endif
    IO_A8,
    IO_B8,
    IO_C8,
@@ -26,17 +28,21 @@ module top
 );
  
    ////////////////// PORT ////////////////////
+`ifdef DEBUF
    input CLK2;
+`endif
    inout IO_A8;
    inout IO_B8;
    inout IO_C8;
    inout IO_D8;
 
    ////////////////// ARCH ////////////////////
+`ifdef DEBUF
    clk_pll	clk_gen (
    	.inclk0 ( CLK2 ),
    	.c0 (  )
    	);   
+`endif
    	
    ////////////////// Virtual JTAG
    wire tdi;
@@ -54,19 +60,10 @@ module top
       .ir_out             (0),
       .virtual_state_cdr  (vjtag_cdr),
       .virtual_state_sdr  (vjtag_sdr),
-      .virtual_state_e1dr (),
-      .virtual_state_pdr  (),
-      .virtual_state_e2dr (),
       .virtual_state_udr  (vjtag_udr),
-      .virtual_state_cir  (),
-      .virtual_state_uir  (),
       .tck                (tck) 
    );
-
-   ////////////////// virtual BSCs
-   wire [`VBSC_NUM-1:0] vbsc_inj;
-
-         
+   
    ////////////////// Capture Phase
    wire [`VBSC_NUM-1:0] inj;
    wire [`VBSC_NUM-1:0] oej  = {`VBSC_NUM{1'b1}};
@@ -139,7 +136,7 @@ module top
          else if(shift_cnt==`VBSC_NBIT_LOG'h2)
             tdo <= outj_capture_reg[vbsc_num];
          else
-            tdo <= `LOW;
+            tdo <= cr_shift_in[0];
       end
       else begin
          tdo <= `LOW;
@@ -153,11 +150,9 @@ module top
       for(j=0;j<`VBSC_NUM;j=j+1)
       begin: up
          always@(posedge vjtag_udr) begin
-//            if(vjtag_udr) begin
-               inj_update_reg [j] <= inj_capture_reg [j];
-               oej_update_reg [j] <= oej_capture_reg [j];
-               outj_update_reg[j] <= outj_capture_reg[j];
-//            end
+            inj_update_reg [j] <= inj_capture_reg [j];
+            oej_update_reg [j] <= oej_capture_reg [j];
+            outj_update_reg[j] <= outj_capture_reg[j];
          end
       end
    endgenerate

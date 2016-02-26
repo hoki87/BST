@@ -35,8 +35,8 @@ port (
 	MSEL0     , MSEL1     , MSEL2     : in bit; 
 	nSTATUS   , nCONFIG   , nCE       , CONF_DONE : linkage bit; 
 --Modified input-output pins
-	IOB10     , IOC9      , IOE9      , IOA9      : inout bit; 
-	IOC1      , IOD2      , IOH2      , CLK2      : in bit; 
+	IOA8      , IOB8      , IOC8      , IOD8      : inout bit; 
+	IOC1      , IOD2      , IOH2      : in bit; 
 	IOF16     , DCLK      : out bit; 
 	IOD4      , IOE5      , IOF5      , IOB1      , IOC2      , IOF3      ,
 	IOD1      , IOG5      , IOF2      , IOF1      , IOG2      , IOG1      ,
@@ -60,13 +60,13 @@ port (
 	IOC16     , IOC15     , IOC14     , IOD14     , IOD11     , IOD12     ,
 	IOA13     , IOB13     , IOA14     , IOB14     , IOE11     , IOE10     ,
 	IOA12     , IOB12     , IOA11     , IOB11     , IOC11     , IOF10     ,
-	IOF9      , IOF11     , IOA15     , IOA10     , IOD9      , IOB9      ,
-	IOA8      , IOB8      , IOC8      , IOD8      , IOE8      , IOF8      ,
+	IOF9      , IOF11     , IOA15     , IOA10     , IOB10     , IOC9      ,
+	IOD9      , IOE9      , IOA9      , IOB9      , IOE8      , IOF8      ,
 	IOA7      , IOB7      , IOF6      , IOF7      , IOC6      , IOA6      ,
 	IOB6      , IOE7      , IOE6      , IOA5      , IOA2      , IOB5      ,
 	IOA4      , IOB4      , IOD5      , IOD6      , IOA3      , IOB3      ,
-	IOC3      , IOD3      , CLK1      , CLK3      , CLK7      , CLK6      ,
-	CLK5      , CLK4      : linkage bit; 
+	IOC3      , IOD3      , CLK1      , CLK2      , CLK3      , CLK7      ,
+	CLK6      , CLK5      , CLK4      : linkage bit; 
 --JTAG Ports
 	TDI       , TCK       , TMS       : in bit; 
 	TDO       : out bit; 
@@ -338,50 +338,50 @@ attribute BOUNDARY_REGISTER of EP4CE10F17 : entity is
   "70    (BC_4, *, internal, 1)," &
   "71    (BC_4, *, internal, X)," &
 
-  --BSC group 24 for unused pad
-  "72    (BC_4, *, internal, X)," &
-  "73    (BC_4, *, internal, 1)," &
-  "74    (BC_4, *, internal, X)," &
+  --BSC group 24 for I/O pin D8
+  "72    (BC_4, IOD8, input, X)," &
+  "73    (BC_1, *, control, 1)," &
+  "74    (BC_1, IOD8, output3, X, 73, 1, Z)," &
 
-  --BSC group 25 for unused pad
-  "75    (BC_4, *, internal, X)," &
-  "76    (BC_4, *, internal, 1)," &
-  "77    (BC_4, *, internal, X)," &
+  --BSC group 25 for I/O pin C8
+  "75    (BC_4, IOC8, input, X)," &
+  "76    (BC_1, *, control, 1)," &
+  "77    (BC_1, IOC8, output3, X, 76, 1, Z)," &
 
-  --BSC group 26 for unused pad
-  "78    (BC_4, *, internal, X)," &
-  "79    (BC_4, *, internal, 1)," &
-  "80    (BC_4, *, internal, X)," &
+  --BSC group 26 for I/O pin B8
+  "78    (BC_4, IOB8, input, X)," &
+  "79    (BC_1, *, control, 1)," &
+  "80    (BC_1, IOB8, output3, X, 79, 1, Z)," &
 
-  --BSC group 27 for unused pad
-  "81    (BC_4, *, internal, X)," &
-  "82    (BC_4, *, internal, 1)," &
-  "83    (BC_4, *, internal, X)," &
+  --BSC group 27 for I/O pin A8
+  "81    (BC_4, IOA8, input, X)," &
+  "82    (BC_1, *, control, 1)," &
+  "83    (BC_1, IOA8, output3, X, 82, 1, Z)," &
 
   --BSC group 28 for unused pad
   "84    (BC_4, *, internal, X)," &
   "85    (BC_4, *, internal, 1)," &
   "86    (BC_4, *, internal, X)," &
 
-  --BSC group 29 for I/O pin A9
-  "87    (BC_4, IOA9, input, X)," &
-  "88    (BC_1, *, control, 1)," &
-  "89    (BC_1, IOA9, output3, X, 88, 1, Z)," &
+  --BSC group 29 for unused pad
+  "87    (BC_4, *, internal, X)," &
+  "88    (BC_4, *, internal, 1)," &
+  "89    (BC_4, *, internal, X)," &
 
-  --BSC group 30 for I/O pin E9
-  "90    (BC_4, IOE9, input, X)," &
-  "91    (BC_1, *, control, 1)," &
-  "92    (BC_1, IOE9, output3, X, 91, 1, Z)," &
+  --BSC group 30 for unused pad
+  "90    (BC_4, *, internal, X)," &
+  "91    (BC_4, *, internal, 1)," &
+  "92    (BC_4, *, internal, X)," &
 
   --BSC group 31 for unused pad
   "93    (BC_4, *, internal, X)," &
   "94    (BC_4, *, internal, 1)," &
   "95    (BC_4, *, internal, X)," &
 
-  --BSC group 32 for I/O pin C9
-  "96    (BC_4, IOC9, input, X)," &
-  "97    (BC_1, *, control, 1)," &
-  "98    (BC_1, IOC9, output3, X, 97, 1, Z)," &
+  --BSC group 32 for unused pad
+  "96    (BC_4, *, internal, X)," &
+  "97    (BC_4, *, internal, 1)," &
+  "98    (BC_4, *, internal, X)," &
 
   --BSC group 33 for unused pad
   "99    (BC_4, *, internal, X)," &
@@ -393,10 +393,10 @@ attribute BOUNDARY_REGISTER of EP4CE10F17 : entity is
   "103   (BC_4, *, internal, 1)," &
   "104   (BC_4, *, internal, X)," &
 
-  --BSC group 35 for I/O pin B10
-  "105   (BC_4, IOB10, input, X)," &
-  "106   (BC_1, *, control, 1)," &
-  "107   (BC_1, IOB10, output3, X, 106, 1, Z)," &
+  --BSC group 35 for unused pad
+  "105   (BC_4, *, internal, X)," &
+  "106   (BC_4, *, internal, 1)," &
+  "107   (BC_4, *, internal, X)," &
 
   --BSC group 36 for unused pad
   "108   (BC_4, *, internal, X)," &
@@ -1113,9 +1113,9 @@ attribute BOUNDARY_REGISTER of EP4CE10F17 : entity is
   "535   (BC_4, *, internal, 1)," &
   "536   (BC_4, *, internal, X)," &
 
-  --BSC group 179 for I/O pin M2
-  "537   (BC_4, CLK2, input, X)," &
-  "538   (BC_4, *, internal, X)," &
+  --BSC group 179 for unused pad
+  "537   (BC_4, *, internal, X)," &
+  "538   (BC_4, *, internal, 1)," &
   "539   (BC_4, *, internal, X)," &
 
   --BSC group 180 for unused pad
