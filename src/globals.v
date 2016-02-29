@@ -20,5 +20,3 @@
 `define VBSC_NUM_LOG     2
 `define VBSC_NBIT        3
 `define VBSC_NBIT_LOG    2
-
-//`define DEBUG 1

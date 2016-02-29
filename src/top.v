@@ -1,4 +1,5 @@
 /////////////////////////// INCLUDE /////////////////////////////
+`include "./globals.v"
 
 ////////////////////////////////////////////////////////////////
 //
@@ -18,7 +19,7 @@
 /////////////////////////// MODULE //////////////////////////////
 module top
 (
-`ifdef DEBUF
+`ifdef DEBUG
    CLK2,
 `endif
    IO_A8,
@@ -28,7 +29,7 @@ module top
 );
  
    ////////////////// PORT ////////////////////
-`ifdef DEBUF
+`ifdef DEBUG
    input CLK2;
 `endif
    inout IO_A8;
@@ -37,10 +38,10 @@ module top
    inout IO_D8;
 
    ////////////////// ARCH ////////////////////
-`ifdef DEBUF
-   clk_pll	clk_gen (
-   	.inclk0 ( CLK2 ),
-   	.c0 (  )
+`ifdef DEBUG
+   clk_pll	clk_gen(
+   	.inclk0 (CLK2),
+   	.c0     ()
    	);   
 `endif
    	
@@ -104,6 +105,7 @@ module top
    reg [`VBSC_NUM-1:0]            inj_update_reg ;
    reg [`VBSC_NUM-1:0]            oej_update_reg ;
    reg [`VBSC_NUM-1:0]            outj_update_reg;
+   reg                            tdi_sf_out;
    always@(posedge tck) begin
       prev_vjtag_sdr <= vjtag_sdr;
 
@@ -114,13 +116,14 @@ module top
             shift_cnt <= 0;
             vbsc_num  <= vbsc_num + 1'b1;
             if(vbsc_num==`VBSC_NUM-1)
-               vbsc_num <= 0;
+               tdi_sf_out <= `HIGH;
          end         
          cr_shift_in <= {tdi, cr_shift_in[`VBSC_NUM*`VBSC_NBIT-1:1]};
       end
       else begin
-         shift_cnt   <= 0;
-         vbsc_num    <= 0;
+         shift_cnt  <= 0;
+         vbsc_num   <= 0;
+         tdi_sf_out <= `LOW;
       end
       
       if(vjtag_cdr)
@@ -128,13 +131,17 @@ module top
    end
 
    always@* begin
-      if(vjtag_sdr) begin         
-         if(shift_cnt==`VBSC_NBIT_LOG'h0)
-            tdo <= inj_capture_reg[vbsc_num];
-         else if(shift_cnt==`VBSC_NBIT_LOG'h1)
-            tdo <= oej_capture_reg[vbsc_num];
-         else if(shift_cnt==`VBSC_NBIT_LOG'h2)
-            tdo <= outj_capture_reg[vbsc_num];
+      if(vjtag_sdr) begin
+         if(~tdi_sf_out) begin
+            if(shift_cnt==`VBSC_NBIT_LOG'h0)
+               tdo <= inj_capture_reg[vbsc_num];
+            else if(shift_cnt==`VBSC_NBIT_LOG'h1)
+               tdo <= oej_capture_reg[vbsc_num];
+            else if(shift_cnt==`VBSC_NBIT_LOG'h2)
+               tdo <= outj_capture_reg[vbsc_num];
+            else
+               tdo <= `LOW;
+         end
          else
             tdo <= cr_shift_in[0];
       end
@@ -165,28 +172,28 @@ module top
    altio	iobuf_0 (
    	.datain (iobuf_din[0]),  // out
    	.oe     (~iobuf_oe[0] ), // out
-   	.dataio (IO_A8       ),  // inout
+   	.dataio (IO_D8       ),  // inout
    	.dataout(iobuf_out[0] )  // in
    	);         
 
    altio	iobuf_1 (
    	.datain (iobuf_din[1]),  // out
    	.oe     (~iobuf_oe[1] ), // out
-   	.dataio (IO_B8       ),  // inout
+   	.dataio (IO_C8       ),  // inout
    	.dataout(iobuf_out[1] )  // in
    	);         
 
    altio	iobuf_2 (
    	.datain (iobuf_din[2]),  // out
    	.oe     (~iobuf_oe[2] ), // out
-   	.dataio (IO_C8       ),  // inout
+   	.dataio (IO_B8       ),  // inout
    	.dataout(iobuf_out[2] )  // in
    	);         
 
    altio	iobuf_3 (
    	.datain (iobuf_din[3]),  // out
    	.oe     (~iobuf_oe[3] ), // out
-   	.dataio (IO_D8       ),  // inout
+   	.dataio (IO_A8       ),  // inout
    	.dataout(iobuf_out[3] )  // in
    	);         
 
