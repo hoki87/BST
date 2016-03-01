@@ -54,10 +54,12 @@ module top
    wire vjtag_sdr;
    wire vjtag_udr;
    
+   wire ir_in;
+   
    vjtag u0 (
       .tdi                (tdi),
       .tdo                (tdo),
-      .ir_in              (),
+      .ir_in              (ir_in),
       .ir_out             (0),
       .virtual_state_cdr  (vjtag_cdr),
       .virtual_state_sdr  (vjtag_sdr),
@@ -80,8 +82,8 @@ module top
          always@(posedge tck) begin
             if(vjtag_cdr) begin
                inj_capture_reg [i] <= iobuf_out[i];
-               oej_capture_reg [i] <= oej[i];
-               outj_capture_reg[i] <= outj[i];
+               oej_capture_reg [i] <= oej[i]      ;
+               outj_capture_reg[i] <= outj[i]     ;
             end
             else if(prev_vjtag_sdr&~vjtag_sdr) begin
                inj_capture_reg [i] <= cr_shift_in[i*`VBSC_NBIT+0];
@@ -89,11 +91,13 @@ module top
                outj_capture_reg[i] <= cr_shift_in[i*`VBSC_NBIT+2];
             end
          end
-         // previously retained data in Update Registers drives the IOC input, INJ, and
+         // IR_IN Configuration:
+         // 1'b0: PIN, OEJ and OUTJ directly drive the io buffer
+         // 1'b1: previously retained data in Update Registers drives the IOC input, INJ, and
          // allows the I/O pin to tri-state or drive a signal out
-         assign inj[i]       = inj_update_reg[i];
-         assign iobuf_oe[i]  = oej_update_reg[i];
-         assign iobuf_din[i] = outj_update_reg[i];
+         assign inj[i]       = ir_in ? inj_update_reg[i]  : iobuf_out[i];
+         assign iobuf_oe[i]  = ir_in ? oej_update_reg[i]  : oej[i]      ;
+         assign iobuf_din[i] = ir_in ? outj_update_reg[i] : outj[i]     ;
       end
    endgenerate
    
